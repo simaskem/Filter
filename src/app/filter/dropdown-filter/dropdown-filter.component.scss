@@ -52,6 +52,7 @@ $dropdown-hover-bg-color: #f1f4f7;
           position: relative;
           border: 1px solid #92aabb;
           vertical-align: text-top;
+          transition: border-color 250ms ease-out,background-color 250ms ease-out;
         }
 
         input[type=checkbox] {

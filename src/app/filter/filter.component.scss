@@ -39,11 +39,15 @@ body {
           border-style: solid;
           border-width: 0.1em 0.1em 0 0;
           content: '';
+          transition: transform .1s ease-in-out;
+          -webkit-transition: -webkit-transform .1s ease-in-out;
+          transform: rotate(-225deg);
+          -webkit-transform: rotate(-225deg);
+          -moz-transform: rotate(-225deg);
           display: inline-block;
           height: 0.45em;
           left: 0.15em;
           position: relative;
-          transform: rotate(135deg);
           width: 0.45em;
         }
 
