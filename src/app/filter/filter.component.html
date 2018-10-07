@@ -1,31 +1,11 @@
 <div style="text-align:center" class="container">
   <button class="btn btn--all btn--label" type="button" [ngClass]="{'selected': filter.all || isFilterFalsy}" (click)="updateAll()">All</button>
   <button *ngFor="let option of filter.mainFilter.options; let i = index" class="btn btn--sized btn--label" type="button" [ngClass]="{'selected': option.value}" (click)="updateFilter('mainFilter', i)">{{option.label}} <span class="price plus">{{option.price}}</span></button>
-  <button #dropdownButton class="btn btn--more dropdown-btn" [ngClass]="{'selected': (filter.moreFilter.value || !isMoreFilterFalsy)}" type="button" (click)="updateMoreButton()">
-    <div class="label-more">More</div>
-    <div class="icon">
-      <div *ngIf="isMoreFilterFalsy; then falsy else truthy"></div>
-      <ng-template #falsy>
-        <div class="chevron" [ngClass]="{'chevron-open': filter.moreFilter.value}"></div>
-      </ng-template>
-      <ng-template #truthy>
-        <div class="close" (click)="resetMoreFilter()"></div>
-      </ng-template>
-    </div>
-  </button>
-  <div #dropdown [ngClass]="{'open': filter.moreFilter.value}" class="dropdown">
-    <div class="dropdown--content">
-      <li class="dropdown--element" *ngFor="let option of filter.moreFilter.options; let i = index" (click)="updateFilter('moreFilter', i)">
-        <div class="filter--option">
-          <input id="moreOption{{i}}" type="checkbox" value="i" [checked]="option.value">
-          <div class="checkbox"></div>
-          <label for="moreOption{{i}}" class="filter--label">{{option.label}}</label>
-          <button type="button" class="dropdown--element--btn only" [innerHtml]="'only'"></button>
-        </div>
-        <div class="filter--price-container">
-          <button type="button" class="dropdown--element--btn price">{{option.price}}</button>
-        </div>
-      </li>
-    </div>
-  </div>
+  <app-dropdown-filter [filter]="filter.moreFilter"
+                       [isMoreFilterFalsy]="isMoreFilterFalsy"
+                       (updateMoreButtonEvent)="updateMoreButton()"
+                       (resetMoreFilterEvent)="resetMoreFilter()"
+                       (updateFilterEvent)="updateFilter($event.filterName, $event.index)"
+  >
+  </app-dropdown-filter>
 </div>

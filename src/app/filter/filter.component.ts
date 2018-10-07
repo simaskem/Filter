@@ -7,9 +7,6 @@ import {Component, ElementRef, HostListener, OnInit, Renderer2, ViewChild} from 
 })
 export class FilterComponent implements OnInit {
 
-  @ViewChild('dropdown') private dropdown: ElementRef;
-  @ViewChild('dropdownButton') private dropdownButton: ElementRef;
-
   public filter = {
     all: false,
     mainFilter: {
@@ -34,7 +31,7 @@ export class FilterComponent implements OnInit {
 
   private FILTER_ALL = 'all';
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit() {
   }
@@ -45,6 +42,7 @@ export class FilterComponent implements OnInit {
   }
 
   public updateMoreButton() {
+    console.log('asdadasd');
     this.filter[this.FILTER_ALL] = false;
     this.filter.moreFilter.value = !this.filter.moreFilter.value;
   }
@@ -77,16 +75,5 @@ export class FilterComponent implements OnInit {
 
   private resetMoreFilter() {
     this.filter.moreFilter.options.map(item => item.value = false);
-  }
-
-  @HostListener('document:click', ['$event'])
-  public clickOut(event: MouseEvent) {
-    if (
-      !this.dropdown.nativeElement.contains(event.target) &&
-      !this.dropdownButton.nativeElement.contains(event.target)
-    ) {
-      this.renderer.removeClass(this.dropdown.nativeElement, 'open');
-      this.filter.moreFilter.value = false;
-    }
   }
 }

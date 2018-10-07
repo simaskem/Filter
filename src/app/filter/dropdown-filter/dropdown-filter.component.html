@@ -1,0 +1,27 @@
+<button #dropdownButton class="btn btn--more dropdown-btn" [ngClass]="{'selected': (filter.value || !isMoreFilterFalsy)}" type="button" (click)="updateMoreButton()">
+  <div class="label-more">More</div>
+  <div class="icon">
+    <div *ngIf="isMoreFilterFalsy; then falsy else truthy"></div>
+    <ng-template #falsy>
+      <div class="chevron" [ngClass]="{'chevron-open': filter.value}"></div>
+    </ng-template>
+    <ng-template #truthy>
+      <div class="close" (click)="resetMoreFilter()"></div>
+    </ng-template>
+  </div>
+</button>
+<div #dropdown [ngClass]="{'open': filter.value}" class="dropdown">
+  <div class="dropdown--content">
+    <li class="dropdown--element" *ngFor="let option of filter.options; let i = index" (click)="updateFilter('moreFilter', i)">
+      <div class="filter--option">
+        <input id="moreOption{{i}}" type="checkbox" value="i" [checked]="option.value">
+        <div class="checkbox"></div>
+        <label for="moreOption{{i}}" class="filter--label">{{option.label}}</label>
+        <button type="button" class="dropdown--element--btn only" [innerHtml]="'only'"></button>
+      </div>
+      <div class="filter--price-container">
+        <button type="button" class="dropdown--element--btn price">{{option.price}}</button>
+      </div>
+    </li>
+  </div>
+</div>
