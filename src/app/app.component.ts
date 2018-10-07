@@ -82,10 +82,17 @@ export class AppComponent {
   }
 
   private resetFilter(): void {
-    this.filter.mainFilter.options.map(item => item.value = false);
-    this.filter.moreFilter.options.map(item => item.value = false);
+    this.resetMainFilter();
+    this.resetMoreFilter();
   }
 
+  private resetMainFilter() {
+    this.filter.mainFilter.options.map(item => item.value = false);
+  }
+
+  private resetMoreFilter() {
+    this.filter.moreFilter.options.map(item => item.value = false);
+  }
 
   @HostListener('document:click', ['$event'])
   public clickOut(event: MouseEvent) {

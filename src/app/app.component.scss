@@ -61,6 +61,22 @@ body {
     }
   }
 
+  @media screen and (max-width: 900px) {
+    .btn {
+      width: 45%;
+      margin: 2px 2px;
+      justify-content: center;
+    }
+    .dropdown {
+      position: unset;
+      width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .btn {width: 100%;}
+  }
+
   .btn:hover {
     background-color: $selected-color;
     cursor: pointer;
@@ -76,6 +92,29 @@ body {
     line-height: 5px;
     width: 10px;
     color: $more-btn-color;
+  }
+
+  .close {
+    stroke-width: 2px;
+    margin-top: -6px;
+    background-color: #1979c9;
+    color: #1e93f5;
+    padding: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    margin-left: 3px;
+    cursor: pointer;
+    position: absolute;
+  }
+
+  .close:after {
+    display: inline-block;
+    content: "\00d7";
+    font-size: 23px;
+    position: relative;
+    top: 3px;
+    right: 1px;
   }
 
   .price {
@@ -110,6 +149,7 @@ body {
 .dropdown {
   display: none;
   position: absolute;
+  top: 40px; right: 417px;
   background: #fff;
   border-radius: 2px;
   margin-top: 4px;
