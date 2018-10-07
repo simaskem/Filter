@@ -30,59 +30,62 @@ export class AppComponent {
 
   public filter = {
     all: false,
-    small: false,
-    medium: false,
-    large: false,
-    suv: false,
-    van: false,
-    more: {
+    mainFilter: {
+      options: [
+        {label: 'Small', value: false, price: '234'},
+        {label: 'Medium', value: false, price: '155'},
+        {label: 'Large', value: false, price: '644'},
+        {label: 'SUV', value: false, price: '173'},
+        {label: 'Van', value: false, price: '425'},
+      ]
+    },
+    moreFilter: {
       value: false,
       options: [
-        {label: 'Pickup Truck', value: false},
-        {label: 'Luxury', value: false},
-        {label: 'Convertible', value: false},
-        {label: 'Commercial', value: false},
+        {label: 'Pickup Truck', value: false, price: '336'},
+        {label: 'Luxury', value: false, price: '476'},
+        {label: 'Convertible', value: false, price: '581'},
+        {label: 'Commercial', value: false, price: '660'},
       ],
     },
   };
 
+  private FILTER_ALL = 'all';
+
   constructor(private renderer: Renderer2) {}
 
-  public updateFilter(index: string|number, isMoreOptionClicked = false) {
-    this.filter['all'] = false;
-
-    if (isMoreOptionClicked) {
-      this.filter.more.options[index].value = !this.filter.more.options[index].value;
-      return;
-    }
-
-    if (index === 'more') {
-      this.filter.more.value = !this.filter.more.value;
-      return;
-    }
-
-    this.filter[index] = !this.filter[index];
+  public updateFilter(filterName: string, index: number): void {
+    this.filter[this.FILTER_ALL] = false;
+    this.filter[filterName].options[index].value = !this.filter[filterName].options[index].value;
   }
 
-  public updateAll() {
+  public updateMoreButton() {
+    this.filter[this.FILTER_ALL] = false;
+    this.filter.moreFilter.value = !this.filter.moreFilter.value;
+  }
+
+  public updateAll(): void {
     this.resetFilter();
-    this.filter['all'] = true;
-    this.isFilterFalsy();
+    this.filter[this.FILTER_ALL] = true;
   }
 
-  private resetFilter() {
-    Object.keys(this.filter).map(key => {
-      if (key === 'more') {
-        return this.filter[key].options.map(item => item.value = false);
-      }
-      return this.filter[key] = false;
-    });
+  public get isFilterFalsy(): boolean {
+    return this.isMainFilterFalsy && this.isMoreFilterFalsy;
   }
 
-  private isFilterFalsy() {
-    this.filter.filter((item, key) => key !== 'more');
-    console.log(this.filter);
+  public get isMainFilterFalsy(): boolean {
+    return this.filter.mainFilter.options.every(item => !item.value);
   }
+
+  public get isMoreFilterFalsy(): boolean {
+    return this.filter.moreFilter.options.every(item => !item.value);
+  }
+
+  private resetFilter(): void {
+    this.filter.mainFilter.options.map(item => item.value = false);
+    this.filter.moreFilter.options.map(item => item.value = false);
+  }
+
 
   @HostListener('document:click', ['$event'])
   public clickOut(event: MouseEvent) {
@@ -91,7 +94,7 @@ export class AppComponent {
       !this.dropdownButton.nativeElement.contains(event.target)
     ) {
       this.renderer.removeClass(this.dropdown.nativeElement, 'open');
-      this.filter.more.value = false;
+      this.filter.moreFilter.value = false;
     }
   }
 }

@@ -1,22 +1,24 @@
 <div style="text-align:center" class="container">
-  <button class="btn btn--all label" type="button" [ngClass]="{'selected': filter.all}" (click)="updateAll()">All</button>
-  <button class="btn btn--sized label" type="button" [ngClass]="{'selected': filter.small}" (click)="updateFilter('small')">Small <span class="price">$422+</span></button>
-  <button class="btn btn--sized label" type="button" [ngClass]="{'selected': filter.medium}" (click)="updateFilter('medium')">Medium <span class="price">$433+</span></button>
-  <button class="btn btn--sized label" type="button" [ngClass]="{'selected': filter.large}" (click)="updateFilter('large')">Large <span class="price">$456+</span></button>
-  <button class="btn btn--sized label" type="button" [ngClass]="{'selected': filter.suv}" (click)="updateFilter('suv')">SUV <span class="price">$525+</span></button>
-  <button class="btn btn--sized label" type="button" [ngClass]="{'selected': filter.van}" (click)="updateFilter('van')">Van <span class="price">$649+</span></button>
-  <button #dropdownButton class="btn btn--more dropdown-btn" type="button" (click)="updateFilter('more')">
+  <button class="btn btn--all label" type="button" [ngClass]="{'selected': filter.all || isFilterFalsy}" (click)="updateAll()">All</button>
+  <button *ngFor="let option of filter.mainFilter.options; let i = index" class="btn btn--sized btn--label" type="button" [ngClass]="{'selected': option.value}" (click)="updateFilter('mainFilter', i)">{{option.label}} <span class="price plus">{{option.price}}</span></button>
+  <button #dropdownButton class="btn btn--more dropdown-btn" [ngClass]="{'selected': (filter.moreFilter.value || !isMoreFilterFalsy)}" type="button" (click)="updateMoreButton()">
     <div class="label-more">More</div>
     <div class="icon">
-      <div class="chevron" [ngClass]="{'open': filter.more.value}"></div>
+      <div class="chevron" [ngClass]="{'chevron-open': filter.moreFilter.value}"></div>
     </div>
   </button>
-  <div #dropdown [ngClass]="{'open': filter.more.value}" style="top: 40px; right: 417px; position: absolute;" class="dropdown">
+  <div #dropdown [ngClass]="{'open': filter.moreFilter.value}" style="top: 40px; right: 417px; position: absolute;" class="dropdown">
     <div class="dropdown--content">
-      <li class="dropdown--element" *ngFor="let option of filter.more.options; let i = index" (click)="updateFilter(i, true)">
-        <label for="moreOption{{i}}">
-          <input id="moreOption{{i}}" type="checkbox" value="i" [checked]="option.value">{{option.label}}
-        </label>
+      <li class="dropdown--element" *ngFor="let option of filter.moreFilter.options; let i = index" (click)="updateFilter('moreFilter', i)">
+        <div class="filter--option">
+          <input id="moreOption{{i}}" type="checkbox" value="i" [checked]="option.value">
+          <div class="checkbox"></div>
+          <label for="moreOption{{i}}" class="filter--label">{{option.label}}</label>
+          <button type="button" class="dropdown--element--btn only" [innerHtml]="'only'"></button>
+        </div>
+        <div class="filter--price-container">
+          <button type="button" class="dropdown--element--btn price">{{option.price}}</button>
+        </div>
       </li>
     </div>
   </div>
